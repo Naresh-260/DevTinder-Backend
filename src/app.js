@@ -1,21 +1,22 @@
 const express = require("express")
 
 const app = express()
-app.get("/",(req,res)=>{
-    res.send("this is my first page")
+
+//CRUD Operations
+app.post("/user",(req,res)=>{
+    res.send("Data is saved Sucessfully into DataBase")
+})
+app.get("/user",(req,res)=>{
+    res.send({"firstName": "Naresh","lastName" : "Lingammagari"})
 })
 
-app.get("/hi",(req,res)=>{
-    res.send("Hi Hello World")
+app.put("/user",(req,res)=>{
+    res.send("data is updated")
+})
+app.delete("/user",(req,res)=>{
+    res.send("Data is deleted is Successfully")
 })
 
-app.get("/hey",(req,res)=>{
-    res.send("Hey I am Here!")
-})
-
-app.get("/get",(req,res)=>{
-    res.send("here are my details")
-})
 
 app.listen(7777,()=>{
     console.log("Server is listening on 7777 port")
