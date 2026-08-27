@@ -2,20 +2,20 @@ const express = require("express")
 
 const app = express()
 
-//CRUD Operations
-app.post("/user",(req,res)=>{
-    res.send("Data is saved Sucessfully into DataBase")
-})
-app.get("/user",(req,res)=>{
-    res.send({"firstName": "Naresh","lastName" : "Lingammagari"})
-})
-
-app.put("/user",(req,res)=>{
-    res.send("data is updated")
-})
-app.delete("/user",(req,res)=>{
-    res.send("Data is deleted is Successfully")
-})
+app.use("/user",[(req,res,next)=>{
+    //res.send("Request Handler 1");
+    next();
+},(req,res,next)=>{
+    //res.send('Response 2');
+    next();
+},(req,res,next)=>{
+    //res.send("Response 3");
+    next();
+  
+},(req,res,next)=>{
+    //res.send("Response 4");
+    next()
+}])
 
 
 app.listen(7777,()=>{
