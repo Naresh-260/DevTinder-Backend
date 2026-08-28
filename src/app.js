@@ -1,27 +1,24 @@
 const express = require("express")
 
 const app = express()
-const {checkAdminAuth,checkUserAuth} = require("./middlewares/auth")
-
 
 app.get("/login",(req,res)=>{
-    res.send("login Successful")
+    try{
+        throw new Error("Some Error")
+    }
+    catch(err){
+        res.status(401).send("Your Credentials are wrong!")
+    }
 })
-app.use("/admin",checkAdminAuth)
+app.use("/",(err,req,res,next)=>{
+    if(err){
+        res.status(501).send("Oops something went wrong!")
+    }
 
-app.get("/user/userData",checkUserAuth,(req,res)=>{
-    res.send("set all user Data")
-})
-app.get("/admin/allData",(req,res)=>{
-   res.send("sent all Data");
+ 
+
 })
 
-app.put("/admin/updateData",(req,res)=>{
-    res.send("Data Updated")
-})
-app.delete("/admin/deleteData",(req,res)=>{
-    res.send("Data Deleted")
-})
 app.listen(7777,()=>{
     console.log("Server is listening on 7777 port")
 })
