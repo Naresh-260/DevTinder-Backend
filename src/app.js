@@ -1,26 +1,39 @@
 const express = require("express")
+const {connectDB} = require("./config/database")
+const {User} = require("./models/user")
 
 const app = express()
 
-app.get("/login",(req,res)=>{
+const userData = {
+    firstName : "peter",
+    lastName : "parkar",
+    emailId : "peter@gmail.com",
+    password : "1234567",
+    age : 16,
+    gender: "male"
+}
+
+app.post("/signup",async (req,res)=>{
     try{
-        throw new Error("Some Error")
+    const instance = new User(userData)
+    await instance.save()
+    res.send("Data posted Successfully")
     }
-    catch(err){
-        res.status(401).send("Your Credentials are wrong!")
+    catch(error){
+        console.log(error)
+        res.status(501).send("Something Went wrong!")
     }
 })
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        res.status(501).send("Oops something went wrong!")
-    }
 
- 
-
-})
-
-app.listen(7777,()=>{
+connectDB().then(()=>{
+    app.listen(7777,()=>{
     console.log("Server is listening on 7777 port")
 })
+    console.log("Connected to DB")
+}).catch((err)=>{
+    console.log(err)
+    console.log("Database connection cannot be established")
+})
+
 
 
