@@ -15,7 +15,7 @@ app.post("/signup",async (req,res)=>{
     }
     catch(error){
         console.log(error)
-        res.status(501).send("Something Went wrong!")
+        res.status(501).send(error.message)
     }
 })
 
@@ -59,11 +59,12 @@ app.delete("/delete",async (req,res)=>{
 })
 
 //update
-app.patch("/update",async (req,res)=>{
+app.patch("/update",async (req,res
+)=>{
     try{
         const userId = req.body.userId;
         const data = req.body;
-        await User.findByIdAndUpdate(userId,data);
+        await User.findByIdAndUpdate(userId,data,{runvalidators : true});
         res.send("user data updated successfully");
     }
     catch(error){
