@@ -59,16 +59,26 @@ app.delete("/delete",async (req,res)=>{
 })
 
 //update
-app.patch("/update",async (req,res
-)=>{
+app.patch("/update/:id",async (req,res)=>{
     try{
-        const userId = req.body.userId;
+        const userId = req.params.id
         const data = req.body;
-        await User.findByIdAndUpdate(userId,data,{runvalidators : true});
+        const allowedUpdates = ["lastName","age", "gender","Bio","skills"]
+        const isUpdateAllowed = Object.keys(data).every((key)=>{
+            return allowedUpdates.includes(key)
+        })
+        if(!isUpdateAllowed){
+            throw new Error("update not allowed");
+        }
+        const skillData = req.body.skills;
+        if(skillData?.length > 10){
+            throw new Error("skills must be lessthan 10")
+        }
+        await User.findByIdAndUpdate(userId,data,{runValidators : true});
         res.send("user data updated successfully");
     }
     catch(error){
-        res.status(400).send("somthing went wrong!")
+        res.status(400).send(error.message)
     }
 })
 

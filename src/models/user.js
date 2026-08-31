@@ -18,17 +18,22 @@ const userSchema = new mongoose.Schema({
     emailId : {
         type:String,
         lowercase: true,
+        minLength:4,
+        maxLength:25,
         unique:true,
         require:true,
         trim:true,
     },
     password :{
         type:String,
-        require:true
+        require:true,
+        minLength:4,
+        maxLength:25,
     },
     age : {
         type:Number,
         min:18,
+        max:120,
 
     },
    gender: {
@@ -50,6 +55,7 @@ const userSchema = new mongoose.Schema({
     },
     skills : {
         type : [String]
+
     }
     
 },{ timestamps: true })
