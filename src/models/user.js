@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const validator = require("validator")
 const userSchema = new mongoose.Schema({
     firstName : {
         type:String,
@@ -23,12 +24,23 @@ const userSchema = new mongoose.Schema({
         unique:true,
         require:true,
         trim:true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("email is not valid" + value);
+            }
+        }
     },
     password :{
         type:String,
         require:true,
         minLength:4,
-        maxLength:25,
+        validate(value){
+            if(!validator.isStrongPassword(value)){
+                throw new Error("Your passeord is not strong" + value);
+            }
+        }
+        
+
     },
     age : {
         type:Number,
@@ -46,12 +58,18 @@ const userSchema = new mongoose.Schema({
 },
     PhotoUrl : {
         type :String,
-        default : "https://tse1.mm.bing.net/th/id/OIP.AO3bDsSVrluj5MZj3UHkPAHaHa?r=0&pid=Api&P=0&h=180"
+        default : "https://tse1.mm.bing.net/th/id/OIP.AO3bDsSVrluj5MZj3UHkPAHaHa?r=0&pid=Api&P=0&h=180",
+        validate(value){
+            if(!validator.isURL(value)){
+                throw new Error("Your Photo URL is not valid" + value);
+            }
+        }
     },
     Bio : {
         type : String,
         minLength : 4,
         maxLength : 100,
+        default : "Enter your Bio Here in max 100 words"
     },
     skills : {
         type : [String]
