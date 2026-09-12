@@ -5,7 +5,7 @@ const checkUserAuth = async (req,res,next)=>{
     const cookies = req.cookies;
     const {authToken} = cookies;
     if(!authToken){
-        res.status(401).send("Unauthorized")
+        res.status(401).send("please login")
     }
     try{
         const decodedToken =  await jwt.verify(authToken, "DevTinder@790");

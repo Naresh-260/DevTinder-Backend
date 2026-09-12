@@ -49,7 +49,7 @@ authRouter.post("/login",async (req,res)=>{
             else{
                 const token = await user.getJwt();
                 res.cookie("authToken", token, {expires: new Date(Date.now() + 3600000)}); // 1 hour
-                res.send("Login Successful")
+                res.json({message:"User Data",data : user})
             }
         }
     }
