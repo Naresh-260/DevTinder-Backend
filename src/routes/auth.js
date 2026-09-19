@@ -25,8 +25,10 @@ authRouter.post("/signup",async (req,res)=>{
         PhotoUrl,
         age,gender,skills
     })
-    await instance.save()
-    res.send("Data posted Successfully")
+    const newUser = await instance.save()
+    const token = await newUser.getJwt();
+    res.cookie("authToken", token, {expires: new Date(Date.now() + 3600000)}); 
+    res.json({message:"User Data",data : newUser})
     }
     catch(error){
         console.log(error)
